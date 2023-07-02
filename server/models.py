@@ -8,6 +8,7 @@ metadata = MetaData(naming_convention={
 
 db = SQLAlchemy(metadata=metadata)
 
+
 class Article(db.Model, SerializerMixin):
     __tablename__ = 'articles'
 
@@ -24,6 +25,18 @@ class Article(db.Model, SerializerMixin):
     def __repr__(self):
         return f'Article {self.id} by {self.author}'
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'author': self.author,
+            'title': self.title,
+            'content': self.content,
+            'preview': self.preview,
+            'minutes_to_read': self.minutes_to_read,
+            'date': self.date
+        }
+
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -34,3 +47,9 @@ class User(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'User {self.name}, ID {self.id}'
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
